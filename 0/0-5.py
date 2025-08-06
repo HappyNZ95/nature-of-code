@@ -11,7 +11,7 @@ class Walker():
     def __init__(self):
         self.x = screen.get_width() / 2
         self.y = screen.get_height() / 2
-        self.size = 25
+        self.size = 12
         self.colour = 1
 
     def step(self):
