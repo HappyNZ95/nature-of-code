@@ -1,53 +1,37 @@
-import pygame
+from p5 import *
 import random
 
-# pygame setup
-pygame.init()
-screen = pygame.display.set_mode((1280, 720))
-clock = pygame.time.Clock()
-running = True
+def setup():
+    size(640, 240)
+    background(255)
+
 
 class Walker():
+
     def __init__(self):
-        self.x = screen.get_width() / 2
-        self.y = screen.get_height() / 2
-        self.size = 2
-        self.colour = 1
+        self.x = 640 / 2
+        self.y = 240 / 2
+
+    def show(self):
+        stroke(0)
+        point(self.x,self.y)
 
     def step(self):
-        random_number = random.random()
-        self.colour += 1000
+        choice = floor(random.randint(0,3))
 
-        if random_number < 0.25:
-            self.x -= self.size
-            pygame.draw.circle(screen, self.colour, (self.x, self.y), self.size) 
-        elif random_number < 0.5:
-            self.x += self.size
-            pygame.draw.circle(screen, self.colour, (self.x, self.y), self.size) 
-        elif random_number < 0.75:
-            self.y -= self.size
-            pygame.draw.circle(screen, self.colour, (self.x, self.y), self.size) 
+        if choice == 0:
+            self.x += 1
+        elif choice == 1:
+            self.x -= 1
+        elif choice == 2:
+            self.y += 1
         else:
-            self.y += self.size
-            pygame.draw.circle(screen, self.colour, (self.x, self.y), self.size)
+            self.y -= 1
 
 walker = Walker()
 
-while running:
-    # poll for events
-    # pygame.QUIT event means the user clicked X to close your window
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    # fill the screen with a color to wipe away anything from last frame
-    #screen.fill("black")
-
+def draw():
     walker.step()
+    walker.show()
 
-    # flip() the display to put your work on screen
-    pygame.display.flip()
-
-    clock.tick(1000)  # limits FPS to 60
-
-pygame.quit()
+run()
