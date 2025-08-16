@@ -1,37 +1,25 @@
 from p5 import *
-import random
+import numpy as np
 
-WIDTH = 1920
-HEIGHT = 1080
+WIDTH = 640
+HEIGHT = 360
 
 def setup():
     size(WIDTH, HEIGHT)
-    background(255)
-
-
-class Walker():
-
-    def __init__(self):
-        self.x = WIDTH / 2
-        self.y = HEIGHT / 2
-        self.tx = 0
-        self.ty = 10000
-
-    def step(self):
-        self.x = remap(noise(self.tx), (0, 1), (0, WIDTH))
-        self.y = remap(noise(self.ty), (0, 1), (0, HEIGHT))
-        self.tx += 0.01
-        self.ty += 0.01
-
-    def show(self):
-        stroke(0)
-        ellipse(self.x, self.y, 34, 34)
-
-
-walker = Walker()
+    no_loop()
 
 def draw():
-    walker.step()
-    walker.show()
+    # Create a random grayscale array
+    arr = np.random.randint(0, 256, (HEIGHT, WIDTH), dtype=np.uint8)
+
+    # Expand to RGB (grayscale) and alpha channel
+    img_array = np.stack([arr, arr, arr, 255 * np.ones_like(arr)], axis=2)
+
+    # Create a p5 image and assign the array to pixels
+    img = create_image(WIDTH, HEIGHT)
+    img.pixels = img_array
+
+    # Draw the image
+    image(img, 0, 0)
 
 run()
